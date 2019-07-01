@@ -18,7 +18,7 @@ I'm really not sure about the sha1. I've seen evidence that it is the default al
 I found [a gist](https://gist.github.com/alexdiliberto/39a4ad0453310d0a69ce) that has code which is compatible with both browsers and Node.
 
 For my Node testing I can just do this:
-```
+```js
 const crypto = require('crypto');
 const randBytes = crypto.randomBytes(16);
 ```
@@ -57,3 +57,6 @@ And the reverse, just in case:
 ```js
 Buffer.from(b64Encoded, 'base64').toString()
 ```
+
+# TODO
+- [ ] What happens if I don't pad the text to encrypt?

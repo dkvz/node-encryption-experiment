@@ -18,11 +18,18 @@ if (process.argv.length >= 4) {
   const dKey = pbkdf2.pbkdf2Sync(pwd, salt, 10000, 256 / 8, 'sha1');
   // Both pad and aesjs.utils.utf8.toBytes work with Uint8Array
   // (Or at least it really looks like it - hope I'm not wrong)
-  const textBytes = pkcs7.pad(aesjs.utils.utf8.toBytes(text));
+  const textBytes = aesjs.utils.utf8.toBytes(text);
+  // We need to add the bytes for the salt and IV (in that order)
+  // at the beginning of the encrypted byte array.
+  const fullTextBytes = new Uint8Array(textBytes.length + salt.length + iv.length);
+  fullTextBytes.set(salt);
+  fullTextBytes.set(iv, salt.length);
+  fullTextBytes.set(textBytes, salt.length + iv.length);
+  console.log(`Full encrypted message byte length: ${fullTextBytes.length}`);
   // cfb() can also take a segmentSize argument, which is 1 by default.
   // I hope this doesn't ruin everything.
   const aesCfb = new aesjs.ModeOfOperation.cfb(dKey, iv);
-  const encryptedBytes = aesCfb.encrypt(textBytes);
+  const encryptedBytes = aesCfb.encrypt(pkcs7.pad(fullTextBytes));
   console.log(Buffer.from(encryptedBytes).toString('base64'));
 } else {
   console.log('Missing arguments: message first then key');
