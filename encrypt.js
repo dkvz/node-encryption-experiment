@@ -31,6 +31,7 @@ if (process.argv.length >= 4) {
   const aesCfb = new aesjs.ModeOfOperation.cfb(dKey, iv);
   const encryptedBytes = aesCfb.encrypt(pkcs7.pad(fullTextBytes));
   console.log(Buffer.from(encryptedBytes).toString('base64'));
+  console.log(`Padding the ${textBytes.length} bytes long text: ${pkcs7.pad(textBytes)}`);
 } else {
   console.log('Missing arguments: message first then key');
 }

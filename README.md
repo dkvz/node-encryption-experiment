@@ -58,5 +58,17 @@ And the reverse, just in case:
 Buffer.from(b64Encoded, 'base64').toString()
 ```
 
+# My padding is completely wrong
+Actually, the npm page for aes-js says to only use 16 bytes long strings to encrypt using CBC.
+
+So What I think I have to do is:
+* Loop through groups of 16 bytes
+* Pad the last group if needed
+* Put all the blocks together
+
+# Things to try if decrypting does not work
+* Remove the padding function - the script doesn't error if it's not there - Might not be needed
+* Try other hash algorithms
+
 # TODO
-- [ ] What happens if I don't pad the text to encrypt?
+- [x] What happens if I don't pad the text to encrypt? -> There's no errors...
