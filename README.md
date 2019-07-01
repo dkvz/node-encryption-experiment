@@ -28,9 +28,9 @@ Since we're using CBC we need exact multiples of the block size so we might need
 
 The C# module references a padding method called "PKCS7" and there seems to be npm modules we can use to do that in JS.
 
-Let's try [this one](https://www.npmjs.com/package/pkcs7):
-```
-npm install pkcs7
+I originally used [a library from npm](https://www.npmjs.com/package/pkcs7) but the aes-js package actually has the same function built in:
+```js
+aesjs.padding.pkcs7.pad(byteArray);
 ```
 
 # Conversion to base64
